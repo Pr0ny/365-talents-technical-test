@@ -1,0 +1,13 @@
+CREATE DATABASE 365_talent;
+
+USE 365_talent;
+
+CREATE TABLE IF NOT EXISTS user (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    email VARCHAR(256) NOT NULL, -- This should be unique
+    forename VARCHAR(124) NOT NULL,
+    lastname VARCHAR(124) NOT NULL,
+    password VARCHAR(256) NOT NULL,
+    age INT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,2 @@
+DROP TABLE user;
+DROP DATABASE 365_talent;

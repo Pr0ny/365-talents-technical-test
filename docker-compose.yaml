@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+  app:
+    build: ./app/.
+    environment:
+      - PORT=8080
+      - HOST=0.0.0.0
+      - MY_SQL_DB_HOST=mysql
+      - MY_SQL_DB_USER=root
+      - MY_SQL_DB_PASSWORD=password
+      - MY_SQL_DB_PORT=3306
+      - MY_SQL_DB_DATABASE=365_talent
+      - NODE_ENV=development
+      - JWT_KEY_SECRET=cutelittlesecretkey
+      - TALENT_API_URL=api-url
+      - TALENT_API_PARTNER=your-partner-id
+      - TALENT_API_PASSWORD=your-token
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    links:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - mysql-db:/var/lib/mysql
+volumes:
+  mysql-db:
