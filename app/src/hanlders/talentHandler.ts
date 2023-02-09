@@ -19,15 +19,18 @@ const talentSkillCategory: object | string | null = async (request: Request, h: 
 }
 
 const talentUsers: object | string | null = async (request: Request, h: HandlerDecorations) => {
-  const {page, limit, hasValidatedCharter, modifiedAfter} = request.query;
-  const users = await talentWrapper.getUsers(Number(page), Number(limit), Boolean(hasValidatedCharter), String(modifiedAfter));
+  const {query} = request;
+  const {page, pageSize} = query
+  const hasValidatedCharter: boolean | null = query['hasValidatedCharter'] !== undefined ? Boolean(query['hasValidatedCharter']) : null
+  const modifiedAfter: string | null = query['modifiedAfter'] !== undefined ? String(query['modifiedAfter']) : null
+  const users = await talentWrapper.getUsers(Number(page), Number(pageSize), hasValidatedCharter, modifiedAfter);
   // Redundant variable BUT you can manipulate data there
   return users;
 }
 
 const talentActiveUsers: object | string | null = async (request: Request, h: HandlerDecorations) => {
-  const {page, limit} = request.query;
-  const users = await talentWrapper.getActiveUsers(Number(page), Number(limit));
+  const {page, pageSize} = request.query;
+  const users = await talentWrapper.getActiveUsers(Number(page), Number(pageSize));
   // Redundant variable BUT you can manipulate data there
   return users;
 }

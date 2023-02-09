@@ -72,25 +72,30 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
   }
 
   async getUsers(page: number = 0,
-                 limit: number = 100,
+                 pageSize: number = 100,
                  hasValidatedCharter: boolean | null = null,
                  modifiedAfter: string | null = null): Promise<object | string | null> {
     await this.verifyAuthentication();
+    const params = {
+      page: page,
+      pageSize: pageSize
+    }
 
-    const response = await this.get('/v1/users',
-      {
-        page: page,
-        limit: limit,
-        hasValidatedCharter: hasValidatedCharter,
-        modifiedAfter: modifiedAfter
-      });
+    if (hasValidatedCharter !== null) {
+      params['hasValidatedCharter'] = hasValidatedCharter
+    }
+
+    if (modifiedAfter !== null) {
+      params['modifiedAfter'] = modifiedAfter
+    }
+    const response = await this.get('/v1/users', params);
     return response['data'];
   }
 
-  async getActiveUsers(page: number = 0, limit: number = 100): Promise<object | string | null> {
+  async getActiveUsers(page: number = 0, pageSize: number = 100): Promise<object | string | null> {
     await this.verifyAuthentication();
 
-    const response = await this.get('/v1/users/active', {page: page, limit: limit});
+    const response = await this.get('/v1/users/active', {page: page, limit: pageSize});
     return response['data'];
   }
 
