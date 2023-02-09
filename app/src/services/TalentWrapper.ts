@@ -79,14 +79,14 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
     const params = {
       page: page,
       pageSize: pageSize
-    }
+    };
 
     if (hasValidatedCharter !== null) {
-      params['hasValidatedCharter'] = hasValidatedCharter
+      params['hasValidatedCharter'] = hasValidatedCharter;
     }
 
     if (modifiedAfter !== null) {
-      params['modifiedAfter'] = modifiedAfter
+      params['modifiedAfter'] = modifiedAfter;
     }
     const response = await this.get('/v1/users', params);
     return response['data'];

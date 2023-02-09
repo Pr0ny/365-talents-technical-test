@@ -6,14 +6,7 @@ const pathPrefix = '/user'
 
 const userRoutes = (server: Server<ServerApplicationState>): void => {
 
-    // Get all infos
-    // server.route({
-    //     method: 'GET',
-    //     path: `${pathPrefix}`,
-    //     handler: getUser
-    // });
-
-    // Get a single info
+    // Get a single user
     server.route({
         method: 'GET',
         path: `${pathPrefix}/{id}`,
@@ -25,14 +18,14 @@ const userRoutes = (server: Server<ServerApplicationState>): void => {
         handler: getUserFromId
     });
 
-    // Create an info
+    // Create user
     server.route({
         method: 'POST',
         path: `${pathPrefix}`,
         handler: createUser
     });
 
-    // Update an info
+    // Update a user
     server.route({
         method: 'PUT',
         path: `${pathPrefix}/{id}`,
@@ -44,7 +37,7 @@ const userRoutes = (server: Server<ServerApplicationState>): void => {
         handler: updateUserFromId
     });
 
-    // Delete an info
+    // Delete an user
     server.route({
         method: 'DELETE',
         path: `${pathPrefix}/{id}`,
