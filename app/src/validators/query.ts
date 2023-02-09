@@ -8,15 +8,15 @@ const talentsSkillVersionValidation = Joi.object({
 // const limitValidation = Joi.number().min(1).max(100)
 
 const talentsUsersValidation = Joi.object({
-  page: Joi.number().min(0),
-  pageSize: Joi.number().min(1).max(100),
-  hasValidatedCharter: Joi.boolean(),
-  modifiedAfter: Joi.date()
+  page: Joi.number().optional().min(0).default(0),
+  pageSize: Joi.number().optional().min(1).max(100).default(100),
+  hasValidatedCharter: Joi.boolean().optional(),
+  modifiedAfter: Joi.date().optional()
 }).options({ stripUnknown: true });
 
 const talentsUsersActiveValidation = Joi.object({
-  page: Joi.number().min(0),
-  pageSize: Joi.number().min(1).max(100)
+  page: Joi.number().optional().min(0).default(0),
+  pageSize: Joi.number().optional().min(1).max(100).default(100)
 }).options({ stripUnknown: true });
 
 export {talentsSkillVersionValidation, talentsUsersValidation, talentsUsersActiveValidation}
