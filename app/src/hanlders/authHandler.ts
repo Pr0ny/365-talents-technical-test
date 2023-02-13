@@ -14,14 +14,16 @@ const signupHandler: any = async (request: Request, h: HandlerDecorations) => {
     const auth = new Authentication();
     const userResult = await user.getUserFromEmail(email); // FIXME: Check if the user already exist
     const hash: string = await crypto.generateHash(password);
-    let userObject: IUser = {email: email, password: hash, forename: forename, lastname: lastname, age: age};
+    let userObject: IUser = {email: email, forename: forename, lastname: lastname, password: hash, age: age}; // Use userResult
     const insert = await user.insert(userObject);
 
     delete userObject['password'];
     userObject['id'] = insert['insertId'];
+
     const authenticationResponse = auth.generatePayload({expire_date_gmt: 'Shrek is love', expire_date_utc: 'Shrek is life'}); // TODO: Add expiration utc && gmt
-    authenticationResponse['data'] = userObject;
-    return userObject;
+
+    authenticationResponse['user'] = userObject;
+    return authenticationResponse;
 }
 
 const signinHandler: any = async (request: Request, h: HandlerDecorations) => {
@@ -32,7 +34,19 @@ const signinHandler: any = async (request: Request, h: HandlerDecorations) => {
     const userResult = await user.getUserFromEmail(email);
 
     if (userResult.length >= 1) {
-        await crypto.compareHash(password, userResult[0].password);
+        const passwordValid = await crypto.compareHash(password, userResult[0].password);
+
+        if (passwordValid) {
+            const auth = new Authentication();
+
+            const authenticationResponse = auth.generatePayload({expire_date_gmt: 'Shrek is love', expire_date_utc: 'Shrek is life'}); // TODO: Add expiration utc && gmt
+            authenticationResponse['user'] = userResult[0];
+            return authenticationResponse;
+        } else {
+            return {'error': 'AUTH_FAILED', 'message': 'Authentication failure. Please try again.'}; // Invalid password
+        }
+    } else {
+        return {'error': 'AUTH_FAILED', 'message': 'Authentication failure. Please try again.'}; // User not found
     }
     return;
 }
