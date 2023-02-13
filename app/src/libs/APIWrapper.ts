@@ -1,6 +1,6 @@
 import axios, {AxiosPromise, AxiosRequestConfig} from "axios";
 
-class APIWrapper {
+class APIWrapper { // Maybe add one extra layer to define methods
 
   #jwt: string
   #baseUrl: string
@@ -44,14 +44,31 @@ class APIWrapper {
     return this.#baseUrl;
   }
 
+  async executeRequest(option: AxiosRequestConfig): Promise<AxiosPromise> {
+    try {
+      return await axios.request(option);
+    } catch (error) {
+      if (error.response) {
+        // Server error to handle...
+        return error;
+      } else if (error.request) {
+        // No response from the server
+        return error.request;
+      } else {
+        // Fatal error... Need to handle this :D
+        return null
+      }
+    }
+  }
+
   async post(endpoint: string, data: object): Promise<AxiosPromise> {
     const option: AxiosRequestConfig = this.craftConfig('POST', endpoint, data);
-    return await axios.request(option);
+    return await this.executeRequest(option);
   }
 
   async get(endpoint: string, params: object | null = null): Promise<AxiosPromise> {
-    const option = this.craftConfig('GET', endpoint, null, params);
-    return await axios.request(option);
+    const option: AxiosRequestConfig = this.craftConfig('GET', endpoint, null, params);
+    return await this.executeRequest(option);
   }
 
   async put(): Promise<void> {}

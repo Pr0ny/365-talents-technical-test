@@ -37,7 +37,7 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
     const endpoint = '/v1/auth/jwt';
     const response = await this.post(endpoint, {partner: partner, password: password});
 
-    if (response.status === 200) {
+    if (response?.status === 200) { // Check for successful response
       this.jwt = response['data'];
       return true;
     } else {
@@ -61,6 +61,7 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
     await this.verifyAuthentication();
 
     const response = await this.get('/v1/skills', {version: version});
+    // Check the content of the request response here (status, data, etc...)
     return response['data'];
   }
 
@@ -68,6 +69,7 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
     await this.verifyAuthentication();
 
     const response = await this.get('/v1/skills/categories');
+    // Check the content of the request response here (status, data, etc...)
     return response['data'];
   }
 
@@ -88,7 +90,9 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
     if (modifiedAfter !== null) {
       params['modifiedAfter'] = modifiedAfter;
     }
+
     const response = await this.get('/v1/users', params);
+    // Check the content of the request response here (status, data, etc...)
     return response['data'];
   }
 
@@ -96,6 +100,7 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
     await this.verifyAuthentication();
 
     const response = await this.get('/v1/users/active', {page: page, limit: pageSize});
+    // Check the content of the request response here (status, data, etc...)
     return response['data'];
   }
 
