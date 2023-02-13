@@ -17,7 +17,11 @@ class Crypto {
   }
 
   async compareHash(data: string, hash: string): Promise<boolean> {
-    return await bcrypt.compare(data, hash);
+    try {
+      return await bcrypt.compare(data, hash);
+    } catch (error) {
+      return false;
+    }
   }
 
 }
