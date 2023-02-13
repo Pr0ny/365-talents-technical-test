@@ -20,7 +20,7 @@ export default class UserModel {
     }
 
     async getUserFromEmail(email: string): Promise<Array<IUser>> {
-        const sql = `SELECT id, email, password from user WHERE id = ? LIMIT 0,20`
+        const sql = `SELECT id, email, password, forename, lastname, age from user WHERE email = ? LIMIT 0,20`
         return await execute<Array<IUser>>(sql, [email]);
     }
 }
