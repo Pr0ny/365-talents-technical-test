@@ -22,11 +22,11 @@ Nothing's easier.
  - [ ] /v1/opportunities/{id}
 
 ### User routes
-- [ ] /v1/suggestion
-- [ ] /v1/users/me
+- [x] /v1/suggestion
+- [x] /v1/users/me
 - [ ] /v1/users/me/document/{typeId}
-- [ ] /v1/opportunities/suggested
-- [ ] /v1/opportunities/types
+- [x] /v1/opportunities/suggested
+- [x] /v1/opportunities/types
 
 ## Usage
 
@@ -75,9 +75,9 @@ const userLogin = await talentWrapper.userAuthenticate('best_user_id');
 The user login variable will contain a JWT related to a user.
 You are now able to use the second part of tha API and request for user data.
 
-As each request to the 365Talents API can be for a different user don't forget to set the `userToken`like such:
+As each request to the 365Talents API can be for a different user don't forget to set the `userToken` like such:
 ```typescript
-talentWrapper.userToken = talentToken;
+talentWrapper.userToken = 'astonishing_token';
 ```
 
 After you can use any implemented request.
@@ -87,3 +87,4 @@ Example:
 const opportunities = await talentWrapper.getUserOpportunities();
 ```
 
+Enjoy! :)

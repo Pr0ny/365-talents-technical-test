@@ -15,7 +15,7 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
   constructor(url: string, partner: boolean = true) {
     super();
     this.url = url;
-    this.partner = partner;
+    this.#partnerMode = partner;
   }
 
   setJwt(): void {
@@ -128,14 +128,12 @@ class TalentWrapper extends APIWrapper { // Extend an APIWrapper for finner env 
   async getActiveUsers(page: number = 0, pageSize: number = 100): Promise<object | string | null> {
     await this.verifyAuthentication();
 
-    const response = await this.get('/v1/users/active', {page: page, limit: pageSize});
+    const response = await this.get('/v1/users/active', {page: page, pageSize: pageSize});
     // Check the content of the request response here (status, data, etc...)
     return response['data'];
   }
 
   async getSuggestion(userJwt): Promise<object | string | null> {
-    const jwt = this.jwt;
-
     this.partner = false; // Switch to user jwt
 
     const response = await this.get('/v1/suggestions');

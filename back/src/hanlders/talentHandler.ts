@@ -6,13 +6,15 @@ const talentWrapper = new TalentWrapper(TALENT_CONF.TALENT_API_URL, true);
 talentWrapper.setPartnerCredential(TALENT_CONF.TALENT_API_PARTNER, TALENT_CONF.TALENT_API_PASSWORD);
 
 const talentsUserSigninHandler: object | string | null = async (request: Request, h: HandlerDecorations) => {
-  const {clientId} = request.query;
+  // @ts-ignore
+  const {clientId} = request.payload;
   const userLogin = await talentWrapper.userAuthenticate(clientId.toString());
   // Redundant variable BUT you can manipulate data there
   return userLogin;
 }
 
 const talentsSkillHandler: object | string | null = async (request: Request, h: HandlerDecorations) => {
+  // @ts-ignore
   const {version} = request.query;
   const skills = await talentWrapper.getSkills(Number(version));
   // Redundant variable BUT you can manipulate data there
@@ -26,7 +28,9 @@ const talentsSkillCategoryHandler: object | string | null = async (request: Requ
 }
 
 const talentsUsersHandler: object | string | null = async (request: Request, h: HandlerDecorations) => {
+  // @ts-ignore
   const {query} = request;
+  // @ts-ignore
   const {page, pageSize} = query;
   const hasValidatedCharter: boolean | null = query['hasValidatedCharter'] !== undefined ? Boolean(query['hasValidatedCharter']) : null;
   const modifiedAfter: string | null = query['modifiedAfter'] !== undefined ? String(query['modifiedAfter']) : null;
@@ -43,60 +47,61 @@ const talentsActiveUsersHandler: object | string | null = async (request: Reques
 }
 
 const talentsSuggestionHandler: object = async (request: Request, h: HandlerDecorations) => {
-  const {talentToken} = request.headers;
+  const {talenttoken} = request.headers;
 
   let suggestions = {}
 
-  if (talentToken) {
-    suggestions = await talentWrapper.getSuggestion(talentToken);
+  if (talenttoken) {
+    talentWrapper.userToken = talenttoken;
+    suggestions = await talentWrapper.getSuggestion(talenttoken);
   }
   return suggestions;
 }
 
 const talentsUserHandler: object = async (request: Request, h: HandlerDecorations) => {
-  const {talentToken} = request.headers;
+  const {talenttoken} = request.headers;
 
   let userInfos: object = {}
 
-  if (talentToken) {
-    talentWrapper.userToken = talentToken;
+  if (talenttoken) {
+    talentWrapper.userToken = talenttoken;
     userInfos = await talentWrapper.getUser();
   }
   return userInfos;
 }
 
 const talentsUserOpportunitiesHandler: object = async (request: Request, h: HandlerDecorations) => {
-  const {talentToken} = request.headers;
+  const {talenttoken} = request.headers;
 
   let opportunities: object = [];
 
-  if (talentToken) {
-    talentWrapper.userToken = talentToken;
+  if (talenttoken) {
+    talentWrapper.userToken = talenttoken;
     opportunities = await talentWrapper.getUserOpportunities();
   }
   return opportunities;
 }
 
 const talentsUserAllowedOpportunitiesTypesHandler: object = async (request: Request, h: HandlerDecorations) => {
-  const {talentToken} = request.headers;
+  const {talenttoken} = request.headers;
 
   let opportunities: object = [];
 
-  if (talentToken) {
-    talentWrapper.userToken = talentToken;
+  if (talenttoken) {
+    talentWrapper.userToken = talenttoken;
     opportunities = await talentWrapper.getUserAllowedOpportunitiesTypes();
   }
   return opportunities;
 }
 
 const talentsUserOpportunitiesByIdHandler: object = async (request: Request, h: HandlerDecorations) => {
-  const {talentToken} = request.headers;
+  const {talenttoken} = request.headers;
   const {id} = request.params;
 
   let opportunities: object = [];
 
-  if (talentToken) {
-    talentWrapper.userToken = talentToken;
+  if (talenttoken) {
+    talentWrapper.userToken = talenttoken;
     opportunities = await talentWrapper.getUserOpportunityById(id);
   }
   return opportunities;
