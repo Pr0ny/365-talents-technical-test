@@ -13,4 +13,13 @@ const signinValidation = Joi.object({
   password: Joi.string().min(8).required()
 });
 
-export {signupValidation, signinValidation}
+const talentSigninValidation = Joi.object({
+  clientId: Joi.string().required(),
+});
+
+const talentCharterValidationValidation = Joi.object({
+  clientId: Joi.string().required(),
+  validationDate: Joi.date()
+});
+
+export {signupValidation, signinValidation, talentSigninValidation, talentCharterValidationValidation}

@@ -16,7 +16,7 @@ class APIWrapper { // Maybe add one extra layer to define methods
   }
 
   set jwt(jwt: string | null) {
-    if (jwt !== null) {
+    if (jwt) {
       const payload = this.getJwtPayload(jwt);
       this.setJwtAuthenticationExpiration(payload['exp']);
       axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
