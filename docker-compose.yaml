@@ -13,8 +13,8 @@ services:
       - NODE_ENV=development
       - JWT_KEY_SECRET=cutelittlesecretkey
       - TALENT_API_URL=https://preprod.365talents.com/node
-      - TALENT_API_PARTNER=test-candidate-8
-      - TALENT_API_PASSWORD=e484137714209ae3ed14c05d02d9154525c6c5af2a301abb02bfb83d092ade00
+      - TALENT_API_PARTNER=hide_this
+      - TALENT_API_PASSWORD=and_this_too
     ports:
       - "8080:8080"
     depends_on:
